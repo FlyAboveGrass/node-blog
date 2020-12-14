@@ -46,13 +46,3 @@ fs.appendFile(filePath, '追加内容', (err) => {
 //     }
 //     console.log('重命名成功')
 // })
-
-
-
-
-// 打印错误
-var err;
-if(err) {
-    console.log(err)
-    return
-}
