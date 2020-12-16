@@ -1,39 +1,58 @@
 const fs = require('fs')
 const express = require('express')
-
 const router = express.Router()
+const {getStudents, findStudents, addStudent, editStudent, delStudent} = require('./student')
 
 
 router.get('/', (req, res) => {
-    fs.readFile('./db.json', 'utf-8', (err, data) => {
-        if(err) {
-            return res.status(500).send('学生信息读取失败', err)
-        }
+    getStudents((students) => {
         res.render('index.html', {
             fruits: [
                 '苹果',
                 '菠萝',
                 '香蕉',
             ],
-            students: JSON.parse(data).students
+            students: students
         })
     })
 })
 
 router.get('/students/edit', (req, res) => {
-    fs.readFile('./db.json', 'utf-8', (err, data) => {
-        if(err) {
-            return res.status(500).send('学生信息读取失败', err)
-        }
-        const student = JSON.parse(data).students.find((item) => {
-            console.log(req.query.id, item.id)
-            return item.id == req.query.id
-        })
-        
-        console.log('student', JSON.parse(data).students, student)
+    findStudents(req.query.id, (student) => {
         res.render('edit.html', {
             student: student
         })
+    })
+})
+
+router.post('/students/edit', (req, res) => {
+    console.log('req', req.body )
+    editStudent(req.body, (err) => {
+        if(err !== undefined) throw err
+        res.redirect('/')
+    })
+})
+
+router.get('/students/new', (req, res) => {
+    res.render('new.html')
+})
+
+router.post('/students/new', (req, res) => {
+    console.log('req', req.body)
+    addStudent(req.body, (result) => {
+        if(result !== undefined){
+            return ;
+        } 
+        res.redirect('/')
+    })
+})
+
+router.get('/students/delete', (req, res) => {
+    delStudent(req.query.id, (err) => {
+        if(err !== undefined) {
+            return ;
+        }
+        res.redirect('/')
     })
 })
 
