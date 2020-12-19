@@ -1,5 +1,7 @@
 const handleBlogRouter = require('./src/router/blog')
 const handleUserRouter = require('./src/router/user')
+
+// 这里是请求的处理
 const serverHandler = (req, res) => {
     res.setHeader('Content-type', 'application/json')
     // const { method, query, url, body } = req
