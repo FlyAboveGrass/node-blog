@@ -1,4 +1,4 @@
-const handleUserRouter = (req, res) => {
+const handleUserRouter = async (req, res) => {
     if(req.url === '/user' && req.method === 'GET'){
         return {'user': '获user取博客'}
     }

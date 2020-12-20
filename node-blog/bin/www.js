@@ -1,8 +1,7 @@
 const http = require('http')
+require('module-alias/register'); // 这是路径别名模块的导入,一定要放在其他自定义模块之前
 const serverHandler = require('../app')
-require('module-alias/register');
-const test = require('@/test');
-console.log(test);
+
 
 const PORT = 3000
 
