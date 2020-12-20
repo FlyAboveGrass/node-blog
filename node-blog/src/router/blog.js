@@ -24,11 +24,10 @@ const handleBlogRouter = async (req, res) => {
         return data ? new SuccessModel(data, '新建博客成功') : new ErrorModel(data, '新建博客失败')
     }
     if(req.url === '/api/blog/update' && req.method === 'POST'){
-        console.log('req.body', req.body)
         const data =  updateBlog(req.body)
         return data ? new SuccessModel(data, '更新博客列表成功') : new ErrorModel(data, '更新博客列表失败')
     }
-    if(req.url === '/api/blog/del' && req.method === 'DELETE'){
+    if(req.url === '/api/blog/del' && req.method === 'POST'){
         const data =  delBlog(req.body)
         return data ? new SuccessModel(data, '删除博客列表成功') : new ErrorModel(data, '删除博客列表失败')
     }
