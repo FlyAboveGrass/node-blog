@@ -1,3 +1,4 @@
+const { getRedis } = require('@/db/redis')
 const handleBlogRouter = require('@/router/blog')
 const handleUserRouter = require('@/router/user')
 const queryString = require('querystring')
@@ -12,6 +13,25 @@ const serverHandler = async (req, res) => {
     if(req.method === 'POST') {
         req.body = await formatPostData(req)
     }
+
+    // 获取cookie
+    req.cookie = {}
+    cookieStr = req.headers.cookie || ''
+    cookieStr.split(';').forEach(item => {
+        if(!item || item.indexOf('=') === -1){
+            return 
+        }
+        item = item.split('=')
+        req.cookie[item[0].trim()] = item[1].trim()
+    })
+
+    // 获取此次请求对应的session信息
+    let sessionData = {}
+    let userId = req.cookie.userid
+    sessionData = await getRedis(userId).catch(err => err)
+    console.log('file: app.js ~ line 34 ~ serverHandler ~ sessionData', sessionData);
+    req.session = sessionData || {}
+    
 
     // 设置响应头
     res.setHeader('Content-type', 'application/json')

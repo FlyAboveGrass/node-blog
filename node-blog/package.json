@@ -13,7 +13,8 @@
   "dependencies": {
     "@axihe/snowflake": "^1.0.2",
     "module-alias": "^2.2.2",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "redis": "^3.0.2"
   },
   "_moduleAliases": {
     "@": "src"
