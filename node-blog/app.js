@@ -7,7 +7,7 @@ const queryString = require('querystring')
 const serverHandler = async (req, res) => {
     // 处理请求参数
     req.query = queryString.parse(req.url.split('?')[1])
-    req.url = req.url.split('?')[0]    
+    req.url = req.url.split('?')[0]
 
     if(req.method === 'POST') {
         req.body = await formatPostData(req)

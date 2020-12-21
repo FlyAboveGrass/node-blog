@@ -1,4 +1,12 @@
 const { exec } = require('@/db/mysql')
+const Snowflake = require("@axihe/snowflake");  // 雪花算法生成id
+
+const config = {
+    worker_id: 0,
+    datacenter_id: 0
+}
+
+const idWorker = new Snowflake(config.worker_id, config.datacenter_id);
 
 const getBlogList = async (query) => {
     const { author = '', keyword = '' } = query;
@@ -25,10 +33,14 @@ const getBlogDetail = (query) => {
 const addBlog = (params) => {
     const {author = '', title = '', content = '' }  = params;
     const createTime = Date.now()
+
+    //需要生成id的时候，使用雪花算法 `.nextId()` 方法
+    let id = idWorker.nextId()
     const sql = `
-        insert into blogs(title, content, createtime, author) 
-                    values('${title}', '${content}', '${createTime}', '${author}')
+        insert into blogs(id, title, content, createtime, author) 
+                    values('${id}','${title}', '${content}', '${createTime}', '${author}')
     `
+    console.log('sql a', sql)
     return exec(sql)
 }
 
