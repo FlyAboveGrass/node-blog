@@ -16,7 +16,7 @@ const handleUserRouter = async (req, res) => {
         return !result ? new ErrorModel(result, '登录失败') : new SuccessModel(result, '登录成功')
     }
     if(req.url === '/api/user/registry' && req.method === 'POST'){
-        const result = await registry(req.body)
+        const result = await registry(req.body).catch(err => null)
         return !result ? new ErrorModel(result, '注册失败') : new SuccessModel(result, '注册成功')
     }
 }
