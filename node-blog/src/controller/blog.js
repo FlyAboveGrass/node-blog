@@ -1,5 +1,6 @@
 const { exec } = require('@/db/mysql')
 const Snowflake = require("@axihe/snowflake");  // 雪花算法生成id
+const xss = require('xss')
 
 const config = {
     worker_id: 0,
@@ -32,6 +33,9 @@ const getBlogDetail = (query) => {
 
 const addBlog = (params) => {
     const {author = '', title = '', content = '' }  = params;
+    author = xss(author)
+    title = xss(title)
+    content = xss(content)
     const createTime = Date.now()
 
     //需要生成id的时候，使用雪花算法 `.nextId()` 方法

@@ -12,9 +12,11 @@
   "license": "ISC",
   "dependencies": {
     "@axihe/snowflake": "^1.0.2",
+    "crypto": "^1.0.1",
     "module-alias": "^2.2.2",
     "mysql": "^2.18.1",
-    "redis": "^3.0.2"
+    "redis": "^3.0.2",
+    "xss": "^1.0.8"
   },
   "_moduleAliases": {
     "@": "src"
