@@ -1,8 +1,10 @@
-const { exec } = require("@/db/mysql")
+const { exec, escape } = require("@/db/mysql")
 const { setRedis } = require("@/db/redis")
 
 const login = async (req) => {
     const { username, password } = req
+    username = escape(username)
+    password = escape(password)
     const sql = `select id,username,password,realname from users where username = '${username}' and password = '${password}'`
     const user = await exec(sql).catch(err => [])
     if(user.length !== 0) {
