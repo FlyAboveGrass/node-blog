@@ -1,11 +1,13 @@
 const { getRedis } = require('@/db/redis')
 const handleBlogRouter = require('@/router/blog')
 const handleUserRouter = require('@/router/user')
+const access = require('@/utils/log')
 const queryString = require('querystring')
 
 
 // 这里是请求的处理
 const serverHandler = async (req, res) => {
+    access('access.log', `${req.method} -- ${req.url} -- ${Date.now()} -- ${req.headers['user-agent']}`)
     // 处理请求参数
     req.query = queryString.parse(req.url.split('?')[1])
     req.url = req.url.split('?')[0]
@@ -29,7 +31,6 @@ const serverHandler = async (req, res) => {
     let sessionData = {}
     let userId = req.cookie.userid
     sessionData = await getRedis(userId).catch(err => err)
-    console.log('file: app.js ~ line 34 ~ serverHandler ~ sessionData', sessionData);
     req.session = sessionData || {}
     
 
