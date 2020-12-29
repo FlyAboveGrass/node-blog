@@ -65,13 +65,13 @@
                 return
             }
 
-            const url = '/api/blog/new'
+            const url = 'http://localhost:8000/api/blog/new'
             const data = {
                 title,
                 content
             }
             post(url, data).then(res => {
-                if (!res.succ) {
+                if (res.code !== 0) {
                     alert('操作错误')
                     return
                 }

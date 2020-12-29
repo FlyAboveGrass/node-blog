@@ -71,9 +71,9 @@
 
         // 获取数据
         const urlParams = getUrlParams()
-        const url = '/api/blog/detail?id=' + urlParams.id
+        const url = 'http://localhost:8000/api/blog/detail?id=' + urlParams.id
         get(url).then(res => {
-            if (!res.succ) {
+            if (res.code !== 0) {
                 alert(res.message)
                 return
             }

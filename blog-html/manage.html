@@ -79,7 +79,7 @@
         const $tableContainer = $('#table-container')
 
         // 拼接接口 url
-        let url = '/api/blog/userBloglist' 
+        let url = 'http://localhost:8000/api/blog/list' 
         const urlParams = getUrlParams()
         if (urlParams.keyword) {
             url += '&keyword=' + urlParams.keyword
@@ -87,13 +87,14 @@
 
         // 加载数据
         get(url).then(res => {
-            if (!res.succ) {
+            console.log('file: manage.html ~ line 90 ~ get ~ res', res);
+            if (res.code !== 0) {
                 alert(res.message)
                 return
             }
 
             // 显示数据
-            const data = res.data.list || []
+            const data = res.data || []
             $('#userName').html(res.data.userName)
             data.forEach(item => {
                 $tableContainer.append($(`
@@ -128,7 +129,7 @@
             if (confirm('确定删除？')) {
                 const url = '/api/blog/delete?id=' + $target.attr('data-id')
                 post(url).then(res => {
-                    if (!res.succ) {
+                    if (res.code !== 0) {
                         alert(res.message)
                         return
                     }

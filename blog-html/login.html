@@ -30,17 +30,15 @@
         }
 
         $('#btnLogin').click(() => {
-            const userName = $('#textUsername').val()
-            const userPass = $('#textPassword').val()
+            const username = $('#textUsername').val()
+            const password = $('#textPassword').val()
             const url = 'http://localhost:8000/api/user/login'
             const data = {
-                userName,
-                userPass
+                username,
+                password
             }
-            console.log('file: login.html ~ line 37 ~ $ ~ data', data);
             post(url, data).then(res => {
-                console.log('file: login.html ~ line 41 ~ post ~ res', res);
-                if (res.succ) {
+                if (res.code === 0) {
                     // 登录成功
                     location.href = './manage.html'
                 } else {
