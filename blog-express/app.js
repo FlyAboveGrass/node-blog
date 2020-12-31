@@ -3,6 +3,10 @@ var express = require('express');
 var path = require('path');
 var cookieParser = require('cookie-parser');
 var logger = require('morgan');
+const { SESSION_SECRET } = require('./conf/key')
+var expressSession = require('express-session')
+const RedisStore = require('connect-redis')(expressSession)
+const redisClient = require('./db/redis')
 
 // var indexRouter = require('./routes/index');
 // var usersRouter = require('./routes/users');
@@ -29,8 +33,23 @@ app.set('view engine', 'jade');
 app.use(logger('dev'));
 app.use(express.json());
 app.use(express.urlencoded({ extended: false }));
-app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
+
+// session 保存
+app.use(cookieParser());
+const sessionStore = new RedisStore({
+  client: redisClient
+})
+// 从cookie过来（secret的值一定要和cookieParser的一致），拿到cookie的值然后去找session，session存在则放到req.session, 如果存在store则通过store存起来
+app.use(expressSession({
+  secret: SESSION_SECRET,
+  cookie: {
+    path: '/',
+    httpOnly: true,
+    maxAge: 24 * 60 * 60 * 1000
+  },
+  store: sessionStore
+}))
 
 // app.use('/', indexRouter);
 // app.use('/api/users', usersRouter);

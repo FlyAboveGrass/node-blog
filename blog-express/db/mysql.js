@@ -10,8 +10,7 @@ function exec(sql, fileds) {
                 if(error) {
                     reject(error)
                 }
-                console.log(data, fields);
-                resolve(data)
+                resolve(JSON.parse(JSON.stringify(data)))
             });
         } catch (e) {
             reject(e)
