@@ -3,7 +3,7 @@
 /**
  * Module dependencies.
  */
-
+require('module-alias/register');
 var app = require('../app');
 var debug = require('debug')('blog-express:server');
 var http = require('http');
@@ -82,8 +82,8 @@ function onError(error) {
  */
 
 function onListening() {
-  console.log('server is run on http://localhost:'+ port)
   var addr = server.address();
+  console.log('server is run on http://localhost:'+ addr.port)
   var bind = typeof addr === 'string'
     ? 'pipe ' + addr
     : 'port ' + addr.port;
