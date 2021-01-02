@@ -23,6 +23,10 @@
         function post(url, data = {}) {
             return $.ajax({
                 type: 'post',
+                crossDomain:true, //设置跨域为true
+                xhrFields: {
+                    withCredentials: true
+                },      //默认情况下，标准的跨域请求是不会发送cookie的
                 url,
                 data: JSON.stringify(data),
                 contentType: "application/json",
@@ -32,7 +36,7 @@
         $('#btnLogin').click(() => {
             const username = $('#textUsername').val()
             const password = $('#textPassword').val()
-            const url = 'http://localhost:8000/api/user/login'
+            const url = 'http://127.0.0.1:8000/api/user/login'
             const data = {
                 username,
                 password
@@ -40,11 +44,13 @@
             post(url, data).then(res => {
                 if (res.code === 0) {
                     // 登录成功
-                    location.href = './manage.html'
+                    // location.href = './manage.html'
                 } else {
                     // 登录失败
                     alert(res.message)
                 }
+            }).catch((e) => {
+                console.log(e);
             })
         })
     </script>

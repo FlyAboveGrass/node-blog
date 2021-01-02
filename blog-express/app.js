@@ -17,9 +17,11 @@ var app = express();
 
 // cores跨域
 const cors = require('cors')
-app.use(cors());
+// 1、一定要设置{credentials: true, origin: 'http://127.0.0.1:8080'}， 否则跨域失败
+app.use(cors({credentials: true, origin: 'http://127.0.0.1:8080'}));
 app.all('*', function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", "*");
+  // 2、一定要设置准确的协议。域名和端口，否则跨域失败
+  res.header("Access-Control-Allow-Origin", "http://127.0.0.1:8080");
   res.header('Access-Control-Allow-Headers', "*");
   res.header("Access-Control-Allow-Methods", "*");
   res.header("Access-Control-Allow-Credentials", true);
@@ -43,6 +45,7 @@ const sessionStore = new RedisStore({
 // 从cookie过来（secret的值一定要和cookieParser的一致），拿到cookie的值然后去找session，session存在则放到req.session, 如果存在store则通过store存起来
 app.use(expressSession({
   secret: SESSION_SECRET,
+  name: 'username',
   cookie: {
     path: '/',
     httpOnly: true,
