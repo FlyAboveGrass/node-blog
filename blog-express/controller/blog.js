@@ -23,6 +23,10 @@ const addBlog = () => {
 
 }
 
+const updateBlog = () => {
+
+}
+
 const getBlogDetail = (id) => {
     if(!id) return null
     const sql = 'select * from blogs where `id` = ?'
@@ -33,5 +37,6 @@ const getBlogDetail = (id) => {
 module.exports = {
     getBlogList,
     addBlog,
-    getBlogDetail
+    getBlogDetail,
+    updateBlog
 }
