@@ -34,9 +34,17 @@ const getBlogDetail = (id) => {
     return exec(sql, fileds).then(fields => fields[0])
 }
 
+const delBlog = (id) => {
+    if(!id) return null
+    const sql = 'select * from blogs where `id` = ?'
+    const fileds = [id]
+    return exec(sql, fileds)
+}
+
 module.exports = {
     getBlogList,
     addBlog,
     getBlogDetail,
-    updateBlog
+    updateBlog,
+    delBlog
 }

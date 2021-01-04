@@ -46,7 +46,16 @@
     <script>
         // 发送 get 请求
         function get(url) {
-            return $.get(url)
+            // return $.get(url)
+            return $.ajax({
+                crossDomain: true,
+                xhrFields: {
+                    withCredentials: true
+                },
+                type: 'GET',
+                contentType: 'application/json',
+                url
+            })
         }
 
         // 发送 post 请求
@@ -54,6 +63,10 @@
             return $.ajax({
                 type: 'post',
                 url,
+                crossDomain:true, //设置跨域为true
+                xhrFields: {
+                    withCredentials: true
+                },      //默认情况下，标准的跨域请求是不会发送cookie的
                 data: JSON.stringify(data),
                 contentType: "application/json",
             })

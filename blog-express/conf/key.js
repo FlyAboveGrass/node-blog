@@ -1,4 +1,4 @@
-const SESSION_SECRET = 'yangjiajian'
+const SESSION_SECRET = 'hua-blog#_'
 const SECRET_KEY = 'yangjiajian'
 
 module.exports = {

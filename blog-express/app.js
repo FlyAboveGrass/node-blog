@@ -38,7 +38,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(express.static(path.join(__dirname, 'public')));
 
 // session 保存
-app.use(cookieParser());
+app.use(cookieParser(SESSION_SECRET));
 const sessionStore = new RedisStore({
   client: redisClient
 })
@@ -46,9 +46,11 @@ const sessionStore = new RedisStore({
 app.use(expressSession({
   secret: SESSION_SECRET,
   name: 'username',
+  resave: true,
+  saveUninitialized: false,
   cookie: {
-    path: '/',
-    httpOnly: true,
+    // path: '/',
+    // httpOnly: true,
     maxAge: 24 * 60 * 60 * 1000
   },
   store: sessionStore
