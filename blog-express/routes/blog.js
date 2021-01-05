@@ -20,7 +20,6 @@ router.get('/del', loginCheck, async (req, res, next) => {
     const author = req.session.username
     const id =  req.query.id
     const data = await delBlog(id)
-    console.log('file: blog.js ~ line 23 ~ router.get ~ data', data);
     data ? res.json(new SuccessModel(data, '删除博客成功')) : res.json(new ErrorModel(data, '删除博客失败'))
 })
 

@@ -20,11 +20,11 @@ const cors = require('cors')
 // 1、一定要设置{credentials: true, origin: 'http://127.0.0.1:8080'}， 否则跨域失败
 app.use(cors({credentials: true, origin: 'http://127.0.0.1:8080'}));
 app.all('*', function (req, res, next) {
+  res.header("Access-Control-Allow-Credentials", true);
   // 2、一定要设置准确的协议。域名和端口，否则跨域失败
   res.header("Access-Control-Allow-Origin", "http://127.0.0.1:8080");
   res.header('Access-Control-Allow-Headers', "*");
   res.header("Access-Control-Allow-Methods", "*");
-  res.header("Access-Control-Allow-Credentials", true);
   next();
 });
 
