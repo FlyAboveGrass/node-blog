@@ -44,7 +44,7 @@
             post(url, data).then(res => {
                 if (res.code === 0) {
                     // 登录成功
-                    // location.href = './manage.html'
+                    location.href = './manage.html'
                 } else {
                     // 登录失败
                     alert(res.message)

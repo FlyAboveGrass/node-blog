@@ -8,13 +8,35 @@ const logger = require('koa-logger')
 const session = require('koa-generic-session');
 const redisStore = require('koa-redis')
 
-const index = require('./routes/index')
-const users = require('./routes/users')
 const user = require('./routes/user')
 const blog = require('./routes/blog')
 
+const { REDIS_CONF } = require('./conf/enviroment')
+
 // error handler
 onerror(app)
+
+// cores跨域
+const cors = require('koa2-cors')
+app.use(cors({
+  origin: function (ctx) {
+      // 可以根据ctx内容限制允许跨域的请求
+      return 'http://127.0.0.1:8080';
+  },
+  maxAge: 24 * 60 * 60 * 1000,
+  methods:['GET','POST'],
+  allowHeaders: ['Content-Type', 'Authorization', 'Accept'],
+  credentials: true
+}))
+
+app.use(async (ctx, next) => {
+  ctx.set("Access-Control-Allow-Credentials", true);
+  // 2、一定要设置准确的协议。域名和端口，否则跨域失败
+  ctx.set("Access-Control-Allow-Origin", "http://127.0.0.1:8080");
+  ctx.set('Access-Control-Allow-Headers', "*");
+  ctx.set("Access-Control-Allow-Methods", "*");
+  await next();
+});
 
 // middlewares
 app.use(bodyparser({
@@ -48,15 +70,13 @@ app.use(session({
   },
   // redis存储器
   store: redisStore({
-    all: '127.0.0.1:6379'
+    all: `${REDIS_CONF.host}:${REDIS_CONF.port}`
   })
 }))
 
 
 // routes
-app.use(index.routes(), index.allowedMethods())
-app.use(users.routes(), users.allowedMethods())
-app.use(user.routes(), users.allowedMethods())
+app.use(user.routes(), user.allowedMethods())
 app.use(blog.routes(), blog.allowedMethods())
 
 // error-handling
